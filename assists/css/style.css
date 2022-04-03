@@ -23,7 +23,7 @@ form{
 
 form h1{
     text-align: center;
-    font-size: 50px;
+    font-size: 30px;
     font-weight: bold;
 }
 .form-group label{
@@ -89,4 +89,10 @@ form .form-row  a{
 
 .social-media .google{
     background-color: red;
+}
+.sign-up{
+    padding-top: 20px;
+}
+.sign-up a{
+    color: #000;
 }

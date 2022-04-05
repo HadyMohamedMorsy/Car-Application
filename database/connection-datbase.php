@@ -8,12 +8,12 @@
         public $dbname;
 
 
-        public function Connect($host,$user,$pass, $dbname){
+        public function Connect(){
 
-            $this->servername = $host;
-            $this->username = $user;
-            $this->password = $pass;
-            $this->dbname = $dbname;
+            $this->servername = 'localhost';
+            $this->username = 'root';
+            $this->password = '';
+            $this->dbname = 'car-application';
         
             // Create connection
             $conn = new mysqli($this->servername,$this->username, $this->password,$this->dbname );

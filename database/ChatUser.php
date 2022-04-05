@@ -13,110 +13,198 @@
         private $user_verification_code;
         private $user_login_status;
 
-        public function testConnect($host , $user , $pass,$dbname){
-
-            $this->Connect($host , $user , $pass , $dbname);
-
-            // Check connection
-            if ($this->Connect($host , $user , $pass , $dbname)->connect_error) {
-
-                die("Connection failed: " . $this->Connect($host , $user , $pass , $dbname)->connect_error);
-
-            }else{
-
-                echo "Connected successfully";
-            }
-
-        
-        }
-
-        function setUserId($user_id)
+        public function setUserId($user_id)
         {
             $this->user_id = $user_id;
         }
 
-        function getUserId()
+        public function getUserId()
         {
             return $this->user_id;
         }
 
-        function setUserName($user_name)
+        public function setUserName($user_name)
         {
             $this->user_name = $user_name;
         }
 
-        function getUserName()
+        public function getUserName()
         {
             return $this->user_name;
         }
-        function setUserEmail($user_email)
+        public function setUserEmail($user_email)
         {
             $this->user_email = $user_email;
         }
 
-        function getUserEmail()
+        public  function getUserEmail()
         {
             return $this->user_email;
         }
 
-        function setUserPassword($user_password)
+        public function setUserPassword($user_password)
         {
             $this->user_password = $user_password;
         }
 
-        function getUserPassword()
+        public function getUserPassword()
         {
             return $this->user_password;
         }
 
-        function setUserProfile($user_profile)
+        public function setUserProfile($user_profile)
         {
             $this->user_profile = $user_profile;
         }
 
-        function getUserProfile()
+        public function getUserProfile()
         {
             return $this->user_profile;
         }
 
-        function setUserStatus($user_status)
+        public function setUserStatus($user_status)
         {
             $this->user_status = $user_status;
         }
 
-        function getUserStatus()
+        public function getUserStatus()
         {
             return $this->user_status;
         }
 
-        function setUserCreatedOn($user_created_on)
+        public function setUserCreatedOn($user_created_on)
         {
             $this->user_created_on = $user_created_on;
         }
 
-        function getUserCreatedOn()
+        public function getUserCreatedOn()
         {
             return $this->user_created_on;
         }
 
-        function setUserVerificationCode($user_verification_code)
+        public function setUserVerificationCode($user_verification_code)
         {
             $this->user_verification_code = $user_verification_code;
         }
 
-        function getUserVerificationCode()
+        public function getUserVerificationCode()
         {
             return $this->user_verification_code;
         }
 
-        function setUserLoginStatus($user_login_status)
-        {
+        public function setUserLoginStatus($user_login_status)
+        { 
             $this->user_login_status = $user_login_status;
         }
 
-        function getUserLoginStatus()
+        public function getUserLoginStatus()
         {
             return $this->user_login_status;
+        }
+
+
+        public function cheackEmail(){
+
+            $sql = 'SELECT * FROM chat_user_table WHERE user_email = "'.$this->getUserEmail().'"';
+
+            $result =  $this->Connect()->query($sql);
+
+            $numRows = $result->num_rows;
+
+            return $numRows;
+
+        }
+
+        public function fetchdata(){
+
+            $sql = 'SELECT * FROM chat_user_table WHERE user_email = "'.$this->getUserEmail().'"';
+
+            $result =  $this->Connect()->query($sql);
+            
+            $numRows = $result->num_rows;
+
+            if($numRows > 0){
+
+                while($rows = $result->fetch_assoc()){
+                    $data[] = $rows;
+                }
+
+                return $data;
+
+            }
+
+        }
+
+        public function SaveDataSession($id){
+
+            $sql = 'SELECT * FROM chat_user_table WHERE user_id = "'.$id.'"';
+
+            $result =  $this->Connect()->query($sql);
+            
+            $numRows = $result->num_rows;
+
+            if($numRows > 0){
+
+                while($rows = $result->fetch_assoc()){
+                    $data[] = $rows;
+                }
+
+                return $data;
+
+            }
+
+        }
+
+        public  function save_data(){
+
+            $insertdata = 'INSERT INTO chat_user_table SET
+                user_name = "'.$this->user_name.'",
+                user_email = "'.$this->user_email.'",
+                user_password = "'.$this->user_password.'",
+                user_profile = "",
+                user_status = "'.$this->user_status.'",
+                user_created_on = "'.$this->user_created_on.'",
+                user_verification_code = "'.$this->user_verification_code.'",
+                user_login_status = "'.$this->user_login_status.'"
+            ';
+
+            $this->Connect()->query($insertdata);
+
+        }
+
+        public function cheackvalidation(){
+
+            $query = 'SELECT * FROM chat_user_table WHERE user_verification_code = "'.$this->user_verification_code.'"';
+
+            
+            $result =  $this->Connect()->query($query);
+
+
+            $numRows = $result->num_rows;
+
+            return $numRows;
+
+
+        }
+
+        public function enabledAccount(){
+
+            $query = 'UPDATE chat_user_table SET  user_status ="'.$this->user_status.'" WHERE user_verification_code = "'.$this->user_verification_code.'"';
+
+            $result =  $this->Connect()->query($query);
+
+            return $result;
+
+        }
+
+        public function UpdataLogin(){
+
+            $query = 'UPDATE chat_user_table SET  user_login_status ="'.$this->user_login_status.'" WHERE user_id = "'.$this->user_id.'"';
+
+            $result =  $this->Connect()->query($query);
+
+            return $result;
+
         }
     }
 

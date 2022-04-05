@@ -135,9 +135,9 @@
 
         }
 
-        public function SaveDataSession($id){
+        public function SaveDataSession(){
 
-            $sql = 'SELECT * FROM chat_user_table WHERE user_id = "'.$id.'"';
+            $sql = 'SELECT * FROM chat_user_table WHERE user_id = "'.$this->user_id.'"';
 
             $result =  $this->Connect()->query($sql);
             
@@ -145,11 +145,9 @@
 
             if($numRows > 0){
 
-                while($rows = $result->fetch_assoc()){
-                    $data[] = $rows;
-                }
-
-                return $data;
+                $rows = $result->fetch_assoc();
+                
+                return $rows;
 
             }
 

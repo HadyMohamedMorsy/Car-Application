@@ -11,9 +11,15 @@
     <title> Cars </title>
 </head>
 <body>
+    
+    <?php 
+        session_start();
+        $user_Login_id =  $_SESSION['user_id'];
+
+    ?>
     <div class="container">
         <div class="row">
-            <div class="col-lg-10">
+            <div class="col-lg-8">
                 <div class="chat">
                     <img src="./assists/images/IMG-Defult-Female.jpg" alt="car" class="img-radiues"/>
                     <div class="content-details">
@@ -48,18 +54,62 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg-2">
+            <div class="col-lg-4">
                 <div class="img-content">
                     <img src="./assists/images/IMG-Defult-Female.jpg" alt="car" class="img img-radiues"/>
-                    <span class="Name-user"> <a href="#"> Hady Mohmaed </a></span>
+                        <span class="Name-user"> 
+                            <a href="#"> Hady Mohmaed </a>
+                        </span>
+                </div>
+                <div class="Buttons">
+                    <input type="hidden" value="<?php echo $user_Login_id; ?>" id="status"/>
+                    <button class="btn btn-primary">Edit</button>
+                    <button class="btn btn-danger" id="LogOut">LogOut</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <script src="./assists/Framework/jQuery/uncompressed, development jQuery 3.5.1.js"></script>
+    <script src="./assists/Framework/jQuery/jquery.js"></script>
     <script src="./assists/Framework/Bootstrap/js/bootstrap.js"></script>
     <script src="./assists/Framework/Fontawsome/js/all.js"></script>
-    <script src="./assists/js/js.js"></script>
+    <script>
+
+        $(document).ready(function(){
+
+            var conn = new WebSocket('ws://localhost:8080');
+                conn.onopen = function(e) {
+                    console.log("Connection established!");
+                };
+
+                conn.onmessage = function(e) {
+                    console.log(e.data);
+                };
+
+            $('#LogOut').click(function(){
+
+                var user_id = $('#status').val();
+
+                        $.ajax({
+                        url:"action.php",
+                        method:"POST",
+                        data:{user_id:user_id, action:'leave'},
+                            success:function(data)
+                            {
+                                var response = JSON.parse(data);
+
+                                if(response.status == 1)
+                                {
+                                    location = 'index.php';
+                                }
+                            }
+                    });
+                });
+
+            });
+
+    </script>
+
+
 </body>
 </html>

@@ -7,6 +7,15 @@
     align-items: center;
     flex-direction: column;
 }
+.Buttons{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+.Buttons a{
+    margin-left: 10px;
+}
 .chat{
     width: 200px;
     display: flex;

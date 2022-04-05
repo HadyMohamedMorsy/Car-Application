@@ -1,17 +1,3 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./assists/Framework/Bootstrap/css/bootstrap.css"/>
-    <link rel="stylesheet" href="./assists/Framework/Fontawsome/css/all.css">
-    <link rel="stylesheet" href="./assists/css/style.css">
-
-    <title> Car Application</title>
-</head>
-<body>
-
 <?php
 
     session_start();
@@ -20,11 +6,6 @@
 
         header('location:Application-content.php');
     }
-
-?>
-
-
-<?php
 
     use PHPMailer\PHPMailer\PHPMailer;
     use PHPMailer\PHPMailer\SMTP;
@@ -128,6 +109,7 @@
                 $status =  $data['user_status'];
                 $password = $data['user_password'];
                 $id = $data['user_id'];
+                $user_name = $data['user_name'];
             }
             
             if($status == 'Enable'){
@@ -138,16 +120,14 @@
 
                     $Login-> setUserLoginStatus('Login');
 
-                    if($Login-> UpdataLogin() > 0){
+                    if($Login-> UpdataLogin()){
 
-                        $user_New_Data =  $Login->SaveDataSession($Login->getUserId());
-
-                        foreach($user_New_Data as $key => $value){
-
+                        $user_New_Data =  $Login->SaveDataSession();
+                        foreach ($user_New_Data as $key => $value) {
                             $_SESSION[$key] = $value;
                         }
 
-                        header('location:Application-content.php');
+                        header('location:CharRoom.php');
 
                     }
                 }else{
@@ -167,9 +147,6 @@
         }
     }
 
-?>
-
-<?php
     if($eroor!= ""){
 
         echo $eroor;
@@ -180,6 +157,23 @@
         echo  $sucess_Message;
     }
 ?>
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./assists/Framework/Bootstrap/css/bootstrap.css"/>
+    <link rel="stylesheet" href="./assists/Framework/Fontawsome/css/all.css">
+    <link rel="stylesheet" href="./assists/css/style.css">
+
+    <title> Car Application</title>
+</head>
+<body>
+
+
 
 
     <form method="post" action="">
@@ -257,10 +251,6 @@
                 </div>
         </div>
     </form>
-
-
-
-
 
     <script src="./assists/Framework/jQuery/uncompressed, development jQuery 3.5.1.js"></script>
     <script src="./assists/Framework/Bootstrap/js/bootstrap.js"></script>

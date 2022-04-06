@@ -14,6 +14,7 @@
     
     <?php 
         session_start();
+        $user_Login_id = '';
         $user_Login_id =  $_SESSION['user_id'];
 
     ?>
@@ -27,7 +28,19 @@
                         <span> Active </span>
                     </div>
                 </div>
-                <div class="chat-box">
+                <div class="chat-box" id="messages_area">
+                    <!-- <div class="my-user">
+                        <span> Lorem ipsum dolor sit, amet consectetur adipisicing elit. Eaque ea doloremque, atque adipisci labore, exercitationem, laborum enim nulla esse voluptates odit beatae numquam temporibus fuga. Possimus officia saepe libero at. </span>
+                    </div>
+                    <div class="Another-user">
+                        <span> Lorem ipsum dolor sit, amet consectetur adipisicing elit. Eaque ea doloremque, atque adipisci labore, exercitationem, laborum enim nulla esse voluptates odit beatae numquam temporibus fuga. Possimus officia saepe libero at. </span>
+                    </div> -->
+                    <!-- <div class="my-user">
+                        <span> Lorem ipsum dolor sit, amet consectetur adipisicing elit. Eaque ea doloremque, atque adipisci labore, exercitationem, laborum enim nulla esse voluptates odit beatae numquam temporibus fuga. Possimus officia saepe libero at. </span>
+                    </div> -->
+                    <!-- <div class="Another-user">
+                        <span> Lorem ipsum dolor sit, amet consectetur adipisicing elit. Eaque ea doloremque, atque adipisci labore, exercitationem, laborum enim nulla esse voluptates odit beatae numquam temporibus fuga. Possimus officia saepe libero at. </span>
+                    </div>
                     <div class="my-user">
                         <span> Lorem ipsum dolor sit, amet consectetur adipisicing elit. Eaque ea doloremque, atque adipisci labore, exercitationem, laborum enim nulla esse voluptates odit beatae numquam temporibus fuga. Possimus officia saepe libero at. </span>
                     </div>
@@ -39,20 +52,16 @@
                     </div>
                     <div class="Another-user">
                         <span> Lorem ipsum dolor sit, amet consectetur adipisicing elit. Eaque ea doloremque, atque adipisci labore, exercitationem, laborum enim nulla esse voluptates odit beatae numquam temporibus fuga. Possimus officia saepe libero at. </span>
-                    </div>
-                    <div class="my-user">
-                        <span> Lorem ipsum dolor sit, amet consectetur adipisicing elit. Eaque ea doloremque, atque adipisci labore, exercitationem, laborum enim nulla esse voluptates odit beatae numquam temporibus fuga. Possimus officia saepe libero at. </span>
-                    </div>
-                    <div class="Another-user">
-                        <span> Lorem ipsum dolor sit, amet consectetur adipisicing elit. Eaque ea doloremque, atque adipisci labore, exercitationem, laborum enim nulla esse voluptates odit beatae numquam temporibus fuga. Possimus officia saepe libero at. </span>
-                    </div>
-                    <div class="my-user">
-                        <span> Lorem ipsum dolor sit, amet consectetur adipisicing elit. Eaque ea doloremque, atque adipisci labore, exercitationem, laborum enim nulla esse voluptates odit beatae numquam temporibus fuga. Possimus officia saepe libero at. </span>
-                    </div>
-                    <div class="Another-user">
-                        <span> Lorem ipsum dolor sit, amet consectetur adipisicing elit. Eaque ea doloremque, atque adipisci labore, exercitationem, laborum enim nulla esse voluptates odit beatae numquam temporibus fuga. Possimus officia saepe libero at. </span>
-                    </div>
+                    </div> -->
                 </div>
+                <form method="post" id="chat_form">
+					<div class="input-group mb-3">
+						<textarea class="form-control" id="chat_message" name="chat_message" placeholder="Type Message Here" required></textarea>
+						<div class="input-group-append">
+							<button type="submit" name="send" id="send" class="btn btn-primary"><i class="fa fa-paper-plane"></i></button>
+						</div>
+					</div>
+				</form>
             </div>
             <div class="col-lg-4">
                 <div class="img-content">
@@ -82,13 +91,58 @@
                     console.log("Connection established!");
                 };
 
-                conn.onmessage = function(e) {
-                    console.log(e.data);
+                conn.onmessage = function(e) {;
+
+                    console.log(JSON.parse(e.data));
+
+                    var data = JSON.parse(e.data);
+
+                    var row_class = '';  
+
+                    var background_class = '';
+
+                    if(data.from == 'Me')
+                    {
+
+                        background_class = 'my-user';
+                    }
+                    else
+                    {
+                        background_class = 'Another-user';
+                    }
+
+                    var html_data = "<div class='"+background_class+"'><span>"+data.msg+"</span></div>";
+
+                    $('#messages_area').append(html_data);
+
+
+
                 };
+
+                $('#chat_form').on('submit', function(e){
+
+                    e.preventDefault();
+
+                        var user_id = $('#status').val();
+
+                        var message = $('#chat_message').val();
+
+                        var data = {
+                            userId : user_id,
+                            msg : message
+                        };
+
+                        conn.send(JSON.stringify(data));
+
+                        $("#chat_message").val("");
+
+                });
 
             $('#LogOut').click(function(){
 
                 var user_id = $('#status').val();
+
+
 
                         $.ajax({
                         url:"action.php",

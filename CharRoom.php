@@ -17,6 +17,15 @@
         $user_Login_id = '';
         $user_Login_id =  $_SESSION['user_id'];
 
+        require_once('./database/chatroom.php');
+
+        $chat_object = new ChatRoom();
+
+        $chat_data = $chat_object->fetchdata();
+
+
+
+
     ?>
     <div class="container">
         <div class="row">
@@ -24,35 +33,59 @@
                 <div class="chat">
                     <img src="./assists/images/IMG-Defult-Female.jpg" alt="car" class="img-radiues"/>
                     <div class="content-details">
-                        <p>AHmed Saied</p>
+                        <p><?php echo $_SESSION['user_name'] ?></p>
                         <span> Active </span>
                     </div>
                 </div>
                 <div class="chat-box" id="messages_area">
-                    <!-- <div class="my-user">
-                        <span> Lorem ipsum dolor sit, amet consectetur adipisicing elit. Eaque ea doloremque, atque adipisci labore, exercitationem, laborum enim nulla esse voluptates odit beatae numquam temporibus fuga. Possimus officia saepe libero at. </span>
-                    </div>
-                    <div class="Another-user">
-                        <span> Lorem ipsum dolor sit, amet consectetur adipisicing elit. Eaque ea doloremque, atque adipisci labore, exercitationem, laborum enim nulla esse voluptates odit beatae numquam temporibus fuga. Possimus officia saepe libero at. </span>
-                    </div> -->
-                    <!-- <div class="my-user">
-                        <span> Lorem ipsum dolor sit, amet consectetur adipisicing elit. Eaque ea doloremque, atque adipisci labore, exercitationem, laborum enim nulla esse voluptates odit beatae numquam temporibus fuga. Possimus officia saepe libero at. </span>
-                    </div> -->
-                    <!-- <div class="Another-user">
-                        <span> Lorem ipsum dolor sit, amet consectetur adipisicing elit. Eaque ea doloremque, atque adipisci labore, exercitationem, laborum enim nulla esse voluptates odit beatae numquam temporibus fuga. Possimus officia saepe libero at. </span>
-                    </div>
-                    <div class="my-user">
-                        <span> Lorem ipsum dolor sit, amet consectetur adipisicing elit. Eaque ea doloremque, atque adipisci labore, exercitationem, laborum enim nulla esse voluptates odit beatae numquam temporibus fuga. Possimus officia saepe libero at. </span>
-                    </div>
-                    <div class="Another-user">
-                        <span> Lorem ipsum dolor sit, amet consectetur adipisicing elit. Eaque ea doloremque, atque adipisci labore, exercitationem, laborum enim nulla esse voluptates odit beatae numquam temporibus fuga. Possimus officia saepe libero at. </span>
-                    </div>
-                    <div class="my-user">
-                        <span> Lorem ipsum dolor sit, amet consectetur adipisicing elit. Eaque ea doloremque, atque adipisci labore, exercitationem, laborum enim nulla esse voluptates odit beatae numquam temporibus fuga. Possimus officia saepe libero at. </span>
-                    </div>
-                    <div class="Another-user">
-                        <span> Lorem ipsum dolor sit, amet consectetur adipisicing elit. Eaque ea doloremque, atque adipisci labore, exercitationem, laborum enim nulla esse voluptates odit beatae numquam temporibus fuga. Possimus officia saepe libero at. </span>
-                    </div> -->
+                    <?php
+
+                        if($chat_data){
+
+                            foreach($chat_data as $row){
+
+                                $userId =  $row['userid'];
+
+                                $username = $row['user_name'];
+
+                                $msg = $row['msg'];
+
+                                $created_on = $row['created_on'];
+
+                                if($user_Login_id == $userId){
+
+                                    $from = 'Me';
+                                    $row_class = 'row justify-content-start';
+                                    $background_class = 'text-dark alert-light';
+        
+                                }else{
+        
+                                    $from = $username;
+                                    $row_class = 'row justify-content-end';
+                                    $background_class = 'alert-success';
+                                }
+        
+                                echo '
+                                <div class="'.$row_class.'">
+                                    <div class="col-sm-10">
+                                        <div class="shadow-sm alert '.$background_class.'">
+                                            <b>'.$from.' - </b>'.$msg.'
+                                            <br />
+                                            <div class="text-right">
+                                                <small><i>'.$created_on.'</i></small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                ';
+
+                            }
+                        }
+
+
+                    ?>
+
+
                 </div>
                 <form method="post" id="chat_form">
 					<div class="input-group mb-3">
@@ -93,29 +126,29 @@
 
                 conn.onmessage = function(e) {;
 
-                    console.log(JSON.parse(e.data));
+                    console.log(e.data);
 
                     var data = JSON.parse(e.data);
 
-                    var row_class = '';  
+                    var row_class = '';
 
                     var background_class = '';
 
                     if(data.from == 'Me')
                     {
-
-                        background_class = 'my-user';
+                        row_class = 'row justify-content-start';
+                        background_class = 'text-dark alert-light';
                     }
                     else
                     {
-                        background_class = 'Another-user';
+                        row_class = 'row justify-content-end';
+                        background_class = 'alert-success';
                     }
 
-                    var html_data = "<div class='"+background_class+"'><span>"+data.msg+"</span></div>";
+                    var html_data = "<div class='"+row_class+"'><div class='col-sm-10'><div class='shadow-sm alert "+background_class+"'><b>"+data.from+" - </b>"+data.msg+"<br /><div class='text-right'><small><i>"+data.dt+"</i></small></div></div></div></div>";
+
 
                     $('#messages_area').append(html_data);
-
-
 
                 };
 

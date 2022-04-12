@@ -126,6 +126,7 @@
             if($numRows > 0){
 
                 while($rows = $result->fetch_assoc()){
+                    
                     $data[] = $rows;
                 }
 

@@ -70,3 +70,44 @@
     padding: 10px;
     border-radius: 10px;
 }
+
+.all-users-chat{
+    display: flex;
+    justify-content: space-between;
+
+    flex-direction: column;
+    padding: 40px;
+    
+}
+.all-users-chat h1{
+    font-size: 18px;
+    background-color: #eee;
+    padding: 10px;
+}
+
+.center{
+    text-align: center;
+}
+
+.all-users-chat .img-content-users{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.all-users-chat .img-content-users img{
+    width: 50px;
+    height: 50px;
+
+}
+
+
+.details{
+    margin-top: 15px;
+}
+
+.details span{
+    margin-left: 5px;
+    font-weight: bold;
+    font-size: 18px;
+}

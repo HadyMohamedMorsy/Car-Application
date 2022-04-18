@@ -205,6 +205,25 @@
             return $result;
 
         }
+
+        public function get_data_all_users(){
+
+            $sql = 'SELECT * FROM chat_user_table';
+
+            $result =  $this->Connect()->query($sql);
+
+            $numRows = $result->num_rows;
+
+            if($numRows > 0){
+
+                return $result; 
+
+            }else{
+                
+                return false;
+            }  
+
+        }
     }
 
 

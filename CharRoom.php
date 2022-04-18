@@ -18,10 +18,16 @@
         $user_Login_id =  $_SESSION['user_id'];
 
         require_once('./database/chatroom.php');
+        
+        require_once('./database/ChatUser.php');
 
         $chat_object = new ChatRoom();
 
         $chat_data = $chat_object->fetchdata();
+
+        $chat_user = new ChatUser();
+
+        $user_data = $chat_user->get_data_all_users();
 
 
 
@@ -103,6 +109,56 @@
                             <a href="#"> Hady Mohmaed </a>
                         </span>
                 </div>
+
+                <div class="all-users-chat">
+                    <h1 class="center"> All Users </h1>
+
+                    <?php
+                        if($user_data){
+                            
+                            foreach($user_data as $use){
+
+                                $username = $use['user_name'];
+
+                                $status = $use['user_login_status'];
+
+                                $id_user = $use['user_id'];
+
+                                ?>
+                                <?php
+                                    if($_SESSION['user_id'] != $id_user ){
+                                        ?>
+                                        <div class="img-content-users">
+                                            <div class="details">
+                                                <img src="./assists/images/IMG-Defult-Female.jpg" alt="car" class="img img-radiues"/>
+                                                <span> <?php echo $username ?> </span>
+                                            </div>
+                                            <?php 
+                                                if($status == 'Login'){
+                                                    ?>
+                                                        <div class="circle green">
+                                                            <i class="fas fa-circle"></i>
+                                                        </div>
+                                                    <?php
+
+                                                }else{
+                                                    ?>
+                                                        <div class="circle red">
+                                                            <i class="fas fa-circle"></i>
+                                                        </div>
+                                                    <?php
+                                                }
+                                            ?>
+                                        </div>
+                                    <?php
+                                }                              
+                                
+                            }
+                        }
+                        ?>
+                </div>
+
+
                 <div class="Buttons">
                     <input type="hidden" value="<?php echo $user_Login_id; ?>" id="status"/>
                     <button class="btn btn-primary">Edit</button>

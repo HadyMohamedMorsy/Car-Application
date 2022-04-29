@@ -13,7 +13,7 @@
             $this->servername = 'localhost';
             $this->username = 'root';
             $this->password = '';
-            $this->dbname = 'car-application';
+            $this->dbname = 'chat';
         
             // Create connection
             $conn = new mysqli($this->servername,$this->username, $this->password,$this->dbname );

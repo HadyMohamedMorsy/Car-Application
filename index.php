@@ -78,7 +78,7 @@
             $mail->Body = '
                 <p>Thank you for registering for Chat Application Demo.</p>
                 <p>This is a verification email, please click the link to verify your email address.</p>
-                <p><a href="http://localhost/cars-application/verify.php?code='.$RgesterData->getUserVerificationCode().'">Click to Verify</a></p>
+                <p><a href="http://localhost/Car-Application/verify.php?code='.$RgesterData->getUserVerificationCode().'">Click to Verify</a></p>
                 <p>Thank you...</p>
             ';
 
@@ -175,8 +175,8 @@
 
 
 
-
-    <form method="post" action="">
+    <!-- login  -->
+    <form method="post" action=""  >
         <h1> Login Number-Cars </h1>
         <div class="form-row">
             <div class="form-group col-md-12">
@@ -210,7 +210,9 @@
                 </div>
         </div>
     </form>
+    <!-- login  -->
 
+    <!-- regester -->
     <form method="post" action="" class="d-none">
         <h1> Sign Up  Number-Cars </h1>
         <div class="form-row">
@@ -251,6 +253,7 @@
                 </div>
         </div>
     </form>
+    <!-- regester -->
 
     <script src="./assists/Framework/jQuery/uncompressed, development jQuery 3.5.1.js"></script>
     <script src="./assists/Framework/Bootstrap/js/bootstrap.js"></script>

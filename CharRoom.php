@@ -15,6 +15,7 @@
     <?php 
         session_start();
         $user_Login_id = '';
+        
         $user_Login_id =  $_SESSION['user_id'];
 
         require_once('./database/chatroom.php');
@@ -182,8 +183,6 @@
 
                 conn.onmessage = function(e) {;
 
-                    console.log(e.data);
-
                     var data = JSON.parse(e.data);
 
                     var row_class = '';
@@ -230,9 +229,6 @@
             $('#LogOut').click(function(){
 
                 var user_id = $('#status').val();
-
-
-
                         $.ajax({
                         url:"action.php",
                         method:"POST",
@@ -240,7 +236,6 @@
                             success:function(data)
                             {
                                 var response = JSON.parse(data);
-
                                 if(response.status == 1)
                                 {
                                     location = 'index.php';

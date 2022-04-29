@@ -27,13 +27,61 @@
                     <div class="chat-user">
                         <div class="content-user" style="text-align: center;">
                             <img src="./assists/images/IMG-Defult-Female.jpg" alt="car" class="img-radiues"/>
-                            <h5> Hady Mohamed </h5>
+                            <h5> <?php echo $_SESSION['user_name']; ?> </h5>
                             <div class="Buttons">
                                 <input type="hidden" value="<?php echo $user_Login_id; ?>" id="status"/>
                                 <button class="btn btn-primary">Edit</button>
                                 <button class="btn btn-danger" id="LogOut">LogOut</button>
                             </div>
                         </div>
+                        <?php
+
+                            $user_id =  $_SESSION['user_id'];
+
+                            require('database/ChatUser.php');
+
+                            $user_object = new ChatUser();
+
+  
+                            $user_object->setUserId($user_id);
+
+                            $user_data_here =  $user_object->get_all_user_status();
+
+                            foreach ($user_data_here as $key => $user) {
+                                
+                                $icon =  "text-danger";
+
+                                if($user['user_login_status'] == 'Login'){
+
+                                    $icon =  "text-success";
+                                }
+
+                                if($user['user_id'] != $user_id){
+
+                                    if($user['count_status'] > 0){
+
+                                        $total_unread_message = '<span class="badge badge_danger badge_pill"> ' .$user['count_status'] . '</span>';
+                                    }else{
+
+                                        $total_unread_message = '';
+                                    } ?>
+
+                                    <div class="user-all">
+                                        <div class="details">
+                                            <img src="./assists/images/IMG-Defult-Female.jpg" alt="car" class="img-radiues"/>
+                                            <span> <?php echo $user['user_name']; ?> </span>
+                                        </div>
+                                        <div class="icon">
+                                            <div class="circle red">
+                                                <i class="fas fa-circle <?php echo $icon; ?>"> <?php echo $total_unread_message; ?></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                <?php
+                                }
+                            }
+                        ?>
+                        <!-- 
                         <div class="user-all">
                             <div class="details">
                                 <img src="./assists/images/IMG-Defult-Female.jpg" alt="car" class="img-radiues"/>
@@ -44,84 +92,7 @@
                                     <i class="fas fa-circle"></i>
                                 </div>
                             </div>
-                        </div>
-                        <div class="user-all">
-                            <div class="details">
-                                <img src="./assists/images/IMG-Defult-Female.jpg" alt="car" class="img-radiues"/>
-                                <span> Hady Mohamed </span>
-                            </div>
-                            <div class="icon">
-                                <div class="circle red">
-                                    <i class="fas fa-circle"></i>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="user-all">
-                            <div class="details">
-                                <img src="./assists/images/IMG-Defult-Female.jpg" alt="car" class="img-radiues"/>
-                                <span> Hady Mohamed </span>
-                            </div>
-                            <div class="icon">
-                                <div class="circle red">
-                                    <i class="fas fa-circle"></i>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="user-all">
-                            <div class="details">
-                                <img src="./assists/images/IMG-Defult-Female.jpg" alt="car" class="img-radiues"/>
-                                <span> Hady Mohamed </span>
-                            </div>
-                            <div class="icon">
-                                <div class="circle red">
-                                    <i class="fas fa-circle"></i>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="user-all">
-                            <div class="details">
-                                <img src="./assists/images/IMG-Defult-Female.jpg" alt="car" class="img-radiues"/>
-                                <span> Hady Mohamed </span>
-                            </div>
-                            <div class="icon">
-                                <div class="circle red">
-                                    <i class="fas fa-circle"></i>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="user-all">
-                            <div class="details">
-                                <img src="./assists/images/IMG-Defult-Female.jpg" alt="car" class="img-radiues"/>
-                                <span> Hady Mohamed </span>
-                            </div>
-                            <div class="icon">
-                                <div class="circle red">
-                                    <i class="fas fa-circle"></i>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="user-all">
-                            <div class="details">
-                                <img src="./assists/images/IMG-Defult-Female.jpg" alt="car" class="img-radiues"/>
-                                <span> Hady Mohamed </span>
-                            </div>
-                            <div class="icon">
-                                <div class="circle red">
-                                    <i class="fas fa-circle"></i>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="user-all">
-                            <div class="details">
-                                <img src="./assists/images/IMG-Defult-Female.jpg" alt="car" class="img-radiues"/>
-                                <span> Hady Mohamed </span>
-                            </div>
-                            <div class="icon">
-                                <div class="circle red">
-                                    <i class="fas fa-circle"></i>
-                                </div>
-                            </div>
-                        </div>
+                        </div> -->
 
                     </div>
                 </div>

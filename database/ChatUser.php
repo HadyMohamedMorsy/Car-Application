@@ -224,6 +224,28 @@
             }  
 
         }
+
+
+        public function get_all_user_status() {
+
+            $query = "SELECT user_id , user_name , user_profile , user_login_status , (select COUNT(*) from chat_message WHERE to_user_id = $this->user_id AND from_user_id = chat_user_table.user_id AND status = 'no') AS count_status FROM chat_user_table";
+
+            $result =  $this->Connect()->query($query);
+
+            $numRows = $result->num_rows;
+
+            if($numRows > 0){
+
+                return $result; 
+
+            }else{
+                
+                return false;
+            } 
+
+
+
+        }
     }
 
 

@@ -25,4 +25,18 @@ if(isset($_POST['action']) && $_POST['action'] == 'leave')
 	}
 }
 
+if(isset($_POST['action']) && $_POST['action'] == 'fetch_chat'){
+
+	require 'database/privateChat.php';
+
+	$private = new Privatechat;
+
+	$private->setfromuserid($_POST['to_user_id']);
+
+	$private->settouserid($_POST['from_user_id']);
+
+	echo json_encode($private->get_all_chat_data());
+
+}
+
 ?>

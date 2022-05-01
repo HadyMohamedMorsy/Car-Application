@@ -111,7 +111,7 @@
             };
 
             conn.onmessage = function(e) {
-                console.log(e.data);
+                console.log(JSON.parse(e.data));
             };
 
             conn.onclose = function(e) {
@@ -157,7 +157,65 @@
 
                 $('#is_active_chat').val('Yes');
 
+                $.ajax({
+                    url : 'action.php',
+                    method : "POST",
+                    data: {action : "fetch_chat" , to_user_id : racevier_user_id , from_user_id:from_user_id},
+                    dataType : "JSON",
+                    success:function(data){
+                        console.log(data);
+                        if(data.length > 0){
+                            var html_data = '';
+                            for(var count = 0; count < data.length; count++){
+                                var row_class = '';
+                                var background_class = '';
+                                var user_name = '';
+
+                                if(data[count].from_user_id == from_user_id){
+                                    row_class = 'row justify-content-start';
+                                    background_class = 'alert-primary';
+                                    user_name = "me"
+
+                                }else{
+                                    row_class = 'row justify-content-end';
+                                    background_class = 'alert-success';
+                                    user_name = data[count].from_user_name;
+                                }
+
+                                html_data+= 
+                                `<div class=${row_class}>
+                                    <div class="col-sm-10">
+                                        <div class="shadow alert ${background_class}">
+                                            <b> ${user_name} </b>
+                                            ${data[count].chat_message}<br/>
+                                            <div class="text-right">
+                                                <small> <i> ${data[count].timestamp} </i><\/small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>`
+
+                                // $('.user_name_'+racevier_user_id).html('');
+
+                                $('.message-box').html(html_data);
+                            }
+                        }
+                    }
+                })
             });
+
+            $(document).on('submit' , '#chat_form' , function (event) {
+                event.preventDefault();
+                let user_id_from_session = $('#status').val();
+                let message = $('#chat_message').val();
+                let data = {
+                    user_id : user_id_from_session,
+                    msg : message,
+                    recive_id : racevier_user_id,
+                    command : 'private'
+                }
+                conn.send(JSON.stringify(data));
+            })
 
     
                 $('#LogOut').click(function(){

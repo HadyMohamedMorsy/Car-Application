@@ -14,6 +14,7 @@ if(isset($_POST['action']) && $_POST['action'] == 'leave')
 
 	$user_object->setUserLoginStatus('Logout');
 
+
 	if($user_object->UpdataLogin())
 	{
         session_unset();

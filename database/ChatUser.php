@@ -12,6 +12,8 @@
         private $user_created_on;
         private $user_verification_code;
         private $user_login_status;
+        private $user_token;
+        private $user_connection_id;
 
         public function setUserId($user_id)
         {
@@ -101,7 +103,16 @@
         {
             return $this->user_login_status;
         }
+        
+        public function setusertoken($user_token)
+        { 
+            $this->user_token = $user_token;
+        }
 
+        public function setuserconnectionid($user_connection_id)
+        { 
+            $this->user_connection_id = $user_connection_id;
+        }
 
         public function cheackEmail(){
 
@@ -198,11 +209,22 @@
 
         public function UpdataLogin(){
 
-            $query = 'UPDATE chat_user_table SET  user_login_status ="'.$this->user_login_status.'" WHERE user_id = "'.$this->user_id.'"';
+            $query = 'UPDATE chat_user_table SET  user_login_status ="'.$this->user_login_status.'", user_token ="'.$this->user_token.'"  WHERE user_id = "'.$this->user_id.'"';
 
             $result =  $this->Connect()->query($query);
 
             return $result;
+
+        }
+
+        public function   update_user_connection_id(){
+
+            $query = 'UPDATE chat_user_table SET  user_connection_id ="'.$this->user_connection_id.'"  WHERE user_token = "'.$this->user_token.'"';
+
+            $result =  $this->Connect()->query($query);
+
+            return $result;
+
 
         }
 

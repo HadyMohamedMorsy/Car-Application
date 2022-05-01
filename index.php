@@ -120,6 +120,10 @@
 
                     $Login-> setUserLoginStatus('Login');
 
+                    $user_token = md5(uniqid());
+
+                    $Login->setusertoken($user_token);
+
                     if($Login-> UpdataLogin()){
 
                         $user_New_Data =  $Login->SaveDataSession();

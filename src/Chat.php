@@ -18,6 +18,18 @@ class Chat implements MessageComponentInterface {
         // Store the new connection to send messages to later
         $this->clients->attach($conn);
 
+        $querystring = $conn->httpRequest->getUri()->getQuery();
+
+        parse_str($querystring , $queryarray);
+
+        $user_object = new \ChatUser;
+
+        $user_object->setusertoken($queryarray['token']);
+
+        $user_object->setuserconnectionid($conn->resourceId);
+
+        $user_object->update_user_connection_id();
+         
         echo "New connection! ({$conn->resourceId})\n";
     }
 

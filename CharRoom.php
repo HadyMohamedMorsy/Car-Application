@@ -175,13 +175,14 @@
     <script>
 
         $(document).ready(function(){
+            $('#LogOut').click(function(){
 
-            var conn = new WebSocket('ws://localhost:8080');
+                var conn = new WebSocket('ws://localhost:8080');
+
                 conn.onopen = function(e) {
                     console.log("Connection established!");
                 };
-
-                conn.onmessage = function(e) {;
+                conn.onmessage = function(e) {
 
                     var data = JSON.parse(e.data);
 
@@ -206,7 +207,7 @@
                     $('#messages_area').append(html_data);
 
                 };
-
+                
                 $('#chat_form').on('submit', function(e){
 
                     e.preventDefault();
@@ -226,8 +227,6 @@
 
                 });
 
-            $('#LogOut').click(function(){
-
                 var user_id = $('#status').val();
                         $.ajax({
                         url:"action.php",
@@ -244,10 +243,13 @@
                     });
                 });
 
-            });
+        });
 
     </script>
 
 
 </body>
 </html>
+
+
+

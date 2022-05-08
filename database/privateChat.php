@@ -90,6 +90,17 @@
 
         }
 
+        public function change_chat_status(){
+            $sql = 'UPDATE chat_message SET
+            status = "Yes"
+            WHERE to_user_id = "'.$this->to_user_id.'"
+            AND from_user_id = "'.$this->from_user_id.'"
+            AND status = "no"
+            ';
+
+            $result =  $this->Connect()->query($sql);
+        }
+
 
     }
 

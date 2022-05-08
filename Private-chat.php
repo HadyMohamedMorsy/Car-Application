@@ -56,7 +56,7 @@
 
                                 if($user['user_login_status'] == 'Login'){
 
-                                    $icon =  "text-success";
+                                $icon =  "text-success";
                                 }
 
                                 if($user['user_id'] != $user_id){
@@ -66,7 +66,7 @@
                                         $total_unread_message = '<span class="badge badge_danger badge_pill"> ' .$user['count_status'] . '</span>';
                                     }else{
 
-                                        $total_unread_message = '';
+                                        $total_unread_message = "";
                                     } ?>
 
                                     <div class="user-all" data-user="<?php echo $user['user_id']; ?>">
@@ -76,7 +76,10 @@
                                         </div>
                                         <div class="icon">
                                             <div class="circle red">
-                                                <i class="fas fa-circle <?php echo $icon; ?>"> <?php echo $total_unread_message; ?></i>
+                                            <span id="userid-<?php echo $user['user_id'];?>">  
+                                                <?php echo $total_unread_message; ?>
+                                            </span>
+                                                <i class="fas fa-circle <?php echo $icon; ?>"></i>
                                             </div>
                                         </div>
                                     </div>
@@ -120,23 +123,24 @@
 
                 let data = JSON.parse(e.data);
 
-                console.log(data);
+                    console.log(data);
+
                     let row = '';
                     let background_class = '';
 
                     if(data.from == 'Me'){
-                    row_class = 'row justify_content_start';
+                    row_class = 'row justify-content-start';
                     background_class = 'alert-primary';
                     }else{
-                        row_class = 'row justify_content_end';
+                        row_class = 'row justify-content-end';
                         background_class = 'alert-success';
                     }
 
                 if(racevier_user_id == data.user_id || data.from == 'Me'){
 
                     if($('#is_active_chat').val() == 'Yes'){
-                        insert+= 
-                        `<div class=${row_class}>
+                        insert= 
+                        `<div class="${row_class}">
                             <div class="col-sm-10">
                                 <div class="shadow alert ${background_class}">
                                     <b> ${data.from} </b>
@@ -149,6 +153,19 @@
                         </div>`;
 
                         $('.message-box').append(insert);            
+
+                    }else{
+
+                        let count_chat = $('#userid-'+date.user_id).text();
+
+                        if(count_chat == " "){
+
+                            count_chat = 0;
+
+                        }
+                        count_chat++;
+                        
+                        $('#userid-'+date.user_id).html('<span class="badge badge-danger badge-pill">'+ count_chat +'</span>');
 
                     }
 
@@ -270,6 +287,8 @@
 
                         if(response.status == 1)
                         {
+                            conn.close();
+                            
                             location = 'index.php';
                         }
                     }

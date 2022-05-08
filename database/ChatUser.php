@@ -280,6 +280,24 @@
 
 
         }
+
+        public function get_user_id_from_token(){
+            $sql = 'SELECT * FROM chat_user_table WHERE user_token = "'.$this->user_token.'"';
+
+            $result =  $this->Connect()->query($sql);
+
+            $numRows = $result->num_rows;
+
+            if($numRows > 0){
+
+                return $result; 
+
+            }else{
+                
+                return false;
+            } 
+
+        }
     }
 
 

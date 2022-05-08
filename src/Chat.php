@@ -90,7 +90,7 @@ class Chat implements MessageComponentInterface {
 
                             }else{
 
-                                $privare->setstatus('No');
+                                $privare->setstatus('no');
 
                                 $privare->setchatmessageid($chat_message_id);
 
@@ -98,7 +98,6 @@ class Chat implements MessageComponentInterface {
 
                             }
                 
-
                         }
                     }else{
 
@@ -146,6 +145,30 @@ class Chat implements MessageComponentInterface {
 
     public function onClose(ConnectionInterface $conn) {
         // The connection is closed, remove it, as we can no longer send it messages
+        $querystring = $conn->httpRequest->getUri()->getQuery();
+
+        parse_str($querystring , $queryarray);
+
+        $user_object = new \ChatUser;
+
+        $user_object->setusertoken($queryarray['token']);
+
+        $getuser = $user_object->get_user_id_from_token();
+
+        $user = $getuser['user_id'];
+
+        $data['status-type'] = 'offline';
+
+        $data['user_id_status'] = $user;
+
+        foreach ($this->clients as $client) {
+
+            $client->send(json_encode($data));
+
+        }
+
+
+
         $this->clients->detach($conn);
 
         echo "Connection {$conn->resourceId} has disconnected\n";

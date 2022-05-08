@@ -35,6 +35,8 @@ if(isset($_POST['action']) && $_POST['action'] == 'fetch_chat'){
 
 	$private->settouserid($_POST['from_user_id']);
 
+	$private->change_chat_status();
+
 	echo json_encode($private->get_all_chat_data());
 
 }

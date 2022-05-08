@@ -49,12 +49,7 @@
 
             if($numRows > 0){
 
-                while($row = $result->fetch_assoc()){
-
-                    $data[] = $row;
-
-                }
-                return $data;
+                return $result->fetch_assoc();
 
             }else{
 
@@ -64,19 +59,21 @@
         
         }
 
-        public function save_chat(){
-
+        public function save(){
             $sql = 'INSERT INTO chat_message SET
-                to_user_id = "'.$this->to_user_id.'",
-                from_user_id = "'.$this->from_user_id.'",
-                chat_message = "'.$this->chat_message.'",
-                timestamp = "'.$this->timestamp.'",
-                status = "'.$this->status.'"
+            to_user_id = "'.$this->to_user_id.'",
+            from_user_id = "'.$this->from_user_id.'",
+            chat_message = "'.$this->chat_message.'",
+            timestamp = "'.$this->timestamp.'",
+            status = "'.$this->status.'"
             ';
 
             $result =  $this->Connect()->query($sql);
 
-            return  $result->insert_id;
+            if($result){
+
+                $this->Connect()->insert_id;
+            }
 
         }
 
@@ -88,6 +85,8 @@
             ';
 
             $result =  $this->Connect()->query($sql);
+
+
 
         }
 

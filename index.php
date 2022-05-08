@@ -7,88 +7,6 @@
         header('location:Application-content.php');
     }
 
-    use PHPMailer\PHPMailer\PHPMailer;
-    use PHPMailer\PHPMailer\SMTP;
-    use PHPMailer\PHPMailer\Exception;
-
-    require 'vendor/autoload.php';
-
-    $eroor = "";
-
-    $sucess_Message = "";
-
-    if(isset($_POST['regester'])){
-
-        require_once('./database/ChatUser.php');
-
-        $RgesterData = new ChatUser();
-
-        $RgesterData->Connect();
-
-        $RgesterData->setUserName($_POST['user_name']);
-
-        $RgesterData->setUserEmail($_POST['user_email']);
-
-        $RgesterData->setUserPassword($_POST['User_password']);
-
-        $RgesterData->setUserProfile("");
-
-        $RgesterData->setUserStatus("Disabled");
-
-        $RgesterData->setUserCreatedOn(date('Y-m-d H:i:s'));
-
-        $RgesterData->setUserVerificationCode(md5(uniqid()));
-
-        $user_data = $RgesterData->cheackEmail();
-
-        if($user_data > 0 ){
-
-            $eroor = "this is Acount is exist";
-
-
-        }else{
-            
-            $RgesterData->save_data();
-
-            
-            $mail = new PHPMailer(true);
-
-            $mail->isSMTP();
-
-            $mail->Host = 'smtp.gmail.com';
-
-            $mail->SMTPAuth = true;
-
-            $mail->Username  = 'hady812012@gmail.com';
-            
-            $mail->Password   = 'zwiczdqybohdvxje';
-
-            $mail->SMTPSecure = 'tls';
-
-            $mail->Port = 587;
-
-            $mail->setFrom('hady812012@gmail.com', 'hady');
-
-            $mail->addAddress($RgesterData->getUserEmail());
-
-            $mail->isHTML(true);
-
-            $mail->Subject = 'Registration Verification for Chat Application Demo';
-
-            $mail->Body = '
-                <p>Thank you for registering for Chat Application Demo.</p>
-                <p>This is a verification email, please click the link to verify your email address.</p>
-                <p><a href="http://localhost/Car-Application/verify.php?code='.$RgesterData->getUserVerificationCode().'">Click to Verify</a></p>
-                <p>Thank you...</p>
-            ';
-
-            $mail->send();
-
-            $sucess_Message = 'Verification Email sent to ' . $RgesterData->getUserEmail() . ', so before login first verify your email';
-
-            
-        }
-    }
 
     if(isset($_POST['login'])){
 
@@ -151,15 +69,7 @@
         }
     }
 
-    if($eroor!= ""){
 
-        echo $eroor;
-    }
-
-    if($sucess_Message!=""){
-
-        echo  $sucess_Message;
-    }
 ?>
 
 
@@ -180,7 +90,7 @@
 
 
     <!-- login  -->
-    <form method="post" action=""  >
+    <form method="post" action=""  id="login">
         <h1> Login Number-Cars </h1>
         <div class="form-row">
             <div class="form-group col-md-12">
@@ -210,14 +120,14 @@
                     <span class="google"> <a href="#"> <i class="fab fa-google"></i> </a> </span>
                 </div> -->
                 <div class="sign-up">
-                    <a href=""> Sign Up </a>
+                    <a href="" id="sign"> Sign Up </a>
                 </div>
         </div>
     </form>
     <!-- login  -->
 
     <!-- regester -->
-    <form method="post" action="" class="d-none">
+    <form method="post" action="./Action/Regester.php" id="regester">
         <h1> Sign Up  Number-Cars </h1>
         <div class="form-row">
             <div class="form-group col-md-12">
@@ -242,6 +152,13 @@
                 </div>
             </div>
             <div class="form-group col-md-12">
+                <label> Number Of Car</label>
+                <div class="content-input">
+                    <input type="password" name="User_car" class="form-control" placeholder="Number Car">
+                    <i class="fas fa-user"></i>
+                </div>
+            </div>
+            <div class="form-group col-md-12">
                 <input type="submit"  class="form-control" value="Sign Up" name="regester">
             </div>
         </div>
@@ -252,8 +169,8 @@
                     <span class="fac"> <a href="#"> <i class="fab fa-facebook-f"></i> </a> </span>
                     <span class="google"> <a href="#"> <i class="fab fa-google"></i> </a> </span>
                 </div> -->
-                <div class="sign-up">
-                    <a href="#"> U have Already Account  </a>
+                <div class="login">
+                    <a href="#" id="log"> U have Already Account  </a>
                 </div>
         </div>
     </form>

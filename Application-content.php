@@ -11,8 +11,8 @@
 <body>
 
     <?php 
-            session_start();
-            $_SESSION['user_email'];
+        session_start();
+        $_SESSION['user_email'];
     ?>
     <div class="container">
         <h1>Profile  . </h1>

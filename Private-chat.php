@@ -104,26 +104,67 @@
 
         $(document).ready(function(){
 
+            let racevier_user_id = "";
+            let html_data = "";
+            let insert = "";
+            let from_user_id = "";
+
+
             var conn = new WebSocket('ws://localhost:8080?token=<?php echo $token; ?>');
 
             conn.onopen = function(e) {
                 console.log("Connection established!");
             };
 
-            conn.onmessage = function(e) {
-                console.log(JSON.parse(e.data));
-            };
+            conn.onmessage = async function(e) {
 
+                let data = JSON.parse(e.data);
+
+                console.log(data);
+                    let row = '';
+                    let background_class = '';
+
+                    if(data.from == 'Me'){
+                    row_class = 'row justify_content_start';
+                    background_class = 'alert-primary';
+                    }else{
+                        row_class = 'row justify_content_end';
+                        background_class = 'alert-success';
+                    }
+
+                if(racevier_user_id == data.user_id || data.from == 'Me'){
+
+                    if($('#is_active_chat').val() == 'Yes'){
+                        insert+= 
+                        `<div class=${row_class}>
+                            <div class="col-sm-10">
+                                <div class="shadow alert ${background_class}">
+                                    <b> ${data.from} </b>
+                                    ${data.msg}<br/>
+                                    <div class="text-right">
+                                        <small> <i> ${data.datetime} </i><\/small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>`;
+
+                        $('.message-box').append(insert);            
+
+                    }
+
+                }
+
+
+            };
             conn.onclose = function(e) {
                 console.log("Connection close");
             };
-            var racevier_user_id = ""
 
-            function make_chat_area(user_name , id){
+
+            function make_chat_area(user_name){
                 let html = `
                 <div class="details-user d-flex justify-content-between">
                     <h2>Chat Private With ${user_name}</h2>
-                    <button class="callbtn" user-data=${id}> Call Video </button>
                 </div> 
             
                     <div class="message-box">
@@ -145,7 +186,7 @@
 
                 racevier_user_id = $(this).data('user');
 
-                var from_user_id = $('#status').val();
+                from_user_id = $('#status').val();
 
                 var racevier_user_name = $('.user_name_'+racevier_user_id).text();
 
@@ -153,7 +194,7 @@
 
                 $(this).addClass('active');
 
-                make_chat_area(racevier_user_name , racevier_user_id);
+                make_chat_area(racevier_user_name);
 
                 $('#is_active_chat').val('Yes');
 
@@ -165,7 +206,6 @@
                     success:function(data){
                         console.log(data);
                         if(data.length > 0){
-                            var html_data = '';
                             for(var count = 0; count < data.length; count++){
                                 var row_class = '';
                                 var background_class = '';
@@ -182,7 +222,7 @@
                                     user_name = data[count].from_user_name;
                                 }
 
-                                html_data+= 
+                                html_data= 
                                 `<div class=${row_class}>
                                     <div class="col-sm-10">
                                         <div class="shadow alert ${background_class}">
@@ -197,7 +237,7 @@
 
                                 // $('.user_name_'+racevier_user_id).html('');
 
-                                $('.message-box').html(html_data);
+                                $('.message-box').append(html_data);
                             }
                         }
                     }
@@ -216,8 +256,8 @@
                 }
                 conn.send(JSON.stringify(data));
             })
+ 
 
-    
                 $('#LogOut').click(function(){
                 var user_id = $('#status').val();
                 $.ajax({
@@ -237,7 +277,5 @@
             });
         });
     </script>
-    <script src="./assists/js/Video.js"></script>
-
 </body>
 </html>

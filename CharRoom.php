@@ -175,58 +175,62 @@
     <script>
 
         $(document).ready(function(){
+
+            var conn = new WebSocket('ws://localhost:8080');
+
+            conn.onopen = function(e) {
+                console.log("Connection established!");
+            };
+            
+            conn.onmessage = function(e) {
+
+                var data = JSON.parse(e.data);
+
+                var row_class = '';
+
+                var background_class = '';
+
+                if(data.from == 'Me')
+                {
+                    row_class = 'row justify-content-start';
+                    background_class = 'text-dark alert-light';
+                }
+                else
+                {
+                    row_class = 'row justify-content-end';
+                    background_class = 'alert-success';
+                }
+
+                var html_data = "<div class='"+row_class+"'><div class='col-sm-10'><div class='shadow-sm alert "+background_class+"'><b>"+data.from+" - </b>"+data.msg+"<br /><div class='text-right'><small><i>"+data.dt+"</i></small></div></div></div></div>";
+
+
+                $('#messages_area').append(html_data);
+
+            };
+
+            $('#chat_form').on('submit', function(event){
+
+                event.preventDefault();
+
+                    let user_id = $('#status').val();
+
+                    console.log(user_id);
+
+                    var message = $('#chat_message').val();
+
+                    var data = {
+                        userId : user_id,
+                        msg : message
+                    };
+
+                    conn.send(JSON.stringify(data));
+
+                    $("#chat_message").val("");
+
+            });
+
+
             $('#LogOut').click(function(){
-
-                var conn = new WebSocket('ws://localhost:8080');
-
-                conn.onopen = function(e) {
-                    console.log("Connection established!");
-                };
-                conn.onmessage = function(e) {
-
-                    var data = JSON.parse(e.data);
-
-                    var row_class = '';
-
-                    var background_class = '';
-
-                    if(data.from == 'Me')
-                    {
-                        row_class = 'row justify-content-start';
-                        background_class = 'text-dark alert-light';
-                    }
-                    else
-                    {
-                        row_class = 'row justify-content-end';
-                        background_class = 'alert-success';
-                    }
-
-                    var html_data = "<div class='"+row_class+"'><div class='col-sm-10'><div class='shadow-sm alert "+background_class+"'><b>"+data.from+" - </b>"+data.msg+"<br /><div class='text-right'><small><i>"+data.dt+"</i></small></div></div></div></div>";
-
-
-                    $('#messages_area').append(html_data);
-
-                };
-                
-                $('#chat_form').on('submit', function(e){
-
-                    e.preventDefault();
-
-                        var user_id = $('#status').val();
-
-                        var message = $('#chat_message').val();
-
-                        var data = {
-                            userId : user_id,
-                            msg : message
-                        };
-
-                        conn.send(JSON.stringify(data));
-
-                        $("#chat_message").val("");
-
-                });
-
                 var user_id = $('#status').val();
                         $.ajax({
                         url:"action.php",
@@ -241,13 +245,11 @@
                                 }
                             }
                     });
-                });
+            });
 
         });
 
     </script>
-
-
 </body>
 </html>
 

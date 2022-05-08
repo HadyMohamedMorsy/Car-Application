@@ -12,6 +12,7 @@
         private $user_created_on;
         private $user_verification_code;
         private $user_login_status;
+        private $Number_car;
         private $user_token;
         private $user_connection_id;
 
@@ -114,6 +115,11 @@
             $this->user_connection_id = $user_connection_id;
         }
 
+        public function setNumber_car($Number_car)
+        { 
+            $this->Number_car = $Number_car;
+        }
+
         public function cheackEmail(){
 
             $sql = 'SELECT * FROM chat_user_table WHERE user_email = "'.$this->getUserEmail().'"';
@@ -175,11 +181,17 @@
                 user_status = "'.$this->user_status.'",
                 user_created_on = "'.$this->user_created_on.'",
                 user_verification_code = "'.$this->user_verification_code.'",
-                user_login_status = "'.$this->user_login_status.'"
+                user_login_status = "'.$this->user_login_status.'",
+                Number_car = "'.$this->Number_car.'"
             ';
 
             $this->Connect()->query($insertdata);
 
+        }
+
+        public function searchtext($text){
+            $query = "SELECT * FROM chat_user_table  WHERE Number_car LIKE '%".$text."%'";
+            return $result =  $this->Connect()->query($query);
         }
 
         public function cheackvalidation(){

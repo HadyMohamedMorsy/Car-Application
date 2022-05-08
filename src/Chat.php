@@ -41,110 +41,103 @@ class Chat implements MessageComponentInterface {
 
                 $data = json_decode($msg, true);
 
-                if($data['command'] == 'private'){
+                        if($data['command'] == 'private'){
 
-                $privare = new \Privatechat;
+                        $privare = new \Privatechat;
 
-                $privare->settouserid($data['recive_id']);
+                        $privare->settouserid($data['recive_id']);
 
-                $privare->setfromuserid($data['user_id']);
+                        $privare->setfromuserid($data['user_id']);
 
-                $privare->setchatmessage($data['msg']);
+                        $privare->settimestamp(date("Y-m-d h:i:s"));
 
-                $timestamp = data('Y-m-d h:i:s');
+                        $privare->setchatmessage($data['msg']);
 
-                $privare->settimestamp($timestamp);
+                        $privare->setstatus('yes');
 
-                $privare->setstatus('yes');
+                        $chat_message_id = $privare->save();
 
-                $chat_message_id =   $privare->save_chat();
+                        $user_object = new \ChatUser;
 
-                $user_object = new \ChatUser;
+                        $user_object->setUserId($data['user_id']);
 
-                $user_object->setUserId($data['userId']);
+                        $user_data = $user_object->SaveDataSession();
 
-                $user_data = $user_object->SaveDataSession();
+                        $user_object->setUserId($data['recive_id']);
 
-                $user_object->setUserId($data['recive_id']);
+                        $receve = $user_object->SaveDataSession();
 
-                $receve = $user_object->SaveDataSession();
+                        $sender = $user_data['user_name'];
 
-                $sender = $user_data['user_name'];
+                        $data['datetime'] = date("Y-m-d h:i:s");
 
-                $data['datetime'] = $timestamp;
+                        $recever_user = $receve['user_connection_id'];
 
-                $recever_user = $receve['user_connection_id'];
+                        foreach ($this->clients as $client) {
 
-                foreach ($this->clients as $client) {
+                            if($from == $client)
+                            {
+                                $data['from'] = 'Me';
+                            }
+                            else
+                            {
+                                $data['from'] = $sender;
+                            }
 
-                    if($from == $client)
-                    {
-                        $data['from'] = 'Me';
-                    }
-                    else
-                    {
-                        $data['from'] = $sender;
-                    }
+                            if($client->resourceId == $recever_user || $from == $client){
 
-                    if($conn->resourceId == $recever_user || $from == $client){
+                                $client->send(json_encode($data));
 
-                        $client->send(json_encode($data));
+                            }else{
 
+                                $privare->setstatus('No');
+
+                                $privare->setchatmessageid($chat_message_id);
+
+                                $privare->update_chat_status();
+
+                            }
+                
+
+                        }
                     }else{
 
-                        $privare->setstatus('No');
+                        $chat_object = new \ChatRoom;
 
-                        $privare->setchatmessageid($chat_message_id);
-
-                        $privare->update_chat_status();
-                    }
+                        $chat_object->setUserId($data['userId']);
+        
+                        $chat_object->setMessage($data['msg']);
+        
+                        $chat_object->setCreatedOn(date("Y-m-d h:i:s"));
+        
+                        $chat_object->save_data();
+        
+                        $user_object = new \ChatUser;
+        
+                        $user_object->setUserId($data['userId']);
+        
+                        $user_data = $user_object->SaveDataSession();
+        
+                        $user_name = $user_data['user_name'];
+        
+                        $data['dt'] = date("d-m-Y h:i:s");
         
 
-                }
-
-
-
-
-                }else{
-
-
-                    $chat_object = new \ChatRoom;
-
-                    $chat_object->setUserId($data['userId']);
-    
-                    $chat_object->setMessage($data['msg']);
-    
-                    $chat_object->setCreatedOn(date("Y-m-d h:i:s"));
-    
-                    $chat_object->save_data();
-    
-                    $user_object = new \ChatUser;
-    
-                    $user_object->setUserId($data['userId']);
-    
-                    $user_data = $user_object->SaveDataSession();
-    
-                    $user_name = $user_data['user_name'];
-    
-                    $data['dt'] = date("d-m-Y h:i:s");
-    
-    
-        
-                foreach ($this->clients as $client) {
-                    // if ($from !== $client) {
-                    //     // The sender is not the receiver, send to each client connected
-                    //     $client->send($msg);
-                    // }
-                    if($from == $client)
-                    {
-                        $data['from'] = 'Me';
-                    }
-                    else
-                    {
-                        $data['from'] = $user_name;
-                    }
-        
-                    $client->send(json_encode($data));
+                        foreach ($this->clients as $client) {
+                        // if ($from !== $client) {
+                        //     // The sender is not the receiver, send to each client connected
+                        //     $client->send($msg);
+                        // }
+                        if($from == $client)
+                        {
+                            $data['from'] = 'Me';
+                        }
+                        else
+                        {
+                            $data['from'] = $user_name;
+                        }
+            
+                        $client->send(json_encode($data));
 
                 }
 

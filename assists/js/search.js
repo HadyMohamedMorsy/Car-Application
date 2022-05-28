@@ -4,6 +4,8 @@
             var search = $(this).val();
             if(search != ''){
                 load_data(search);
+            }else{
+                load_data('');
             }
         });
         function load_data(query){
@@ -12,7 +14,12 @@
                 method:"POST",
                 data:{query:query},
                 success:function(data){
-                    $('#result').html(data);
+                    if(query != ''){
+                        $('#result').html(data);
+                        console.log(data);
+                    }else{
+                        $('#result').html('');
+                    }                    
                 }
             });
         }

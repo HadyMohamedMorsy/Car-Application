@@ -1,0 +1,18 @@
+body{
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin: 0px;
+    padding: 0px;
+}
+.details{
+    text-align: center;
+}
+.details img{
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    text-align: center;
+}

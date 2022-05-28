@@ -1,11 +1,17 @@
 .img-content{
-    width: 140px;
-    margin-left: auto;
-    margin-right: auto;
     display: flex;
-    justify-content: center;
     align-items: center;
-    flex-direction: column;
+    margin: 20px 0px;
+}
+.img-content .details-person{
+}
+.img-content .details-person img{
+    width: 50px;
+    height: 50px;
+}
+
+.img-content .icones-edit {
+    flex: 1;
 }
 .Buttons{
     width: 100%;
@@ -89,6 +95,7 @@
     text-align: center;
 }
 
+
 .all-users-chat .img-content-users{
     display: flex;
     align-items: center;
@@ -111,3 +118,71 @@
     font-weight: bold;
     font-size: 18px;
 }
+
+
+.chat-all{
+    background-color: #fff;
+    border-radius: 20px;
+}
+
+.chat-search{
+    padding: 20px 0px;
+}
+
+.input-group-text{
+    background-color: #fff;
+    border-radius: 0px;
+}
+
+.right-side{
+    background-color: #f9f9f9;
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+}
+
+.right-side .search{
+    border-radius: 20px !important;
+}
+
+.chat-search .green{
+    margin-left: 10px;
+}
+
+.input-group{
+    margin-bottom: 20px;
+}
+
+.icones-edit svg{
+    cursor: pointer;
+    font-size: 15px;
+    color: #727272;
+    margin-left: 12px;
+}
+
+.icones-edit a{
+    color: #eee;
+}
+
+.icones-edit a:hover{
+    text-decoration: none;
+}
+
+.from-another{
+    background-color: #4d7ff9;
+    border-radius: 15px;
+    color: #fff;
+    font-weight: bold;
+    font-size: 14px;
+
+}
+
+.from-me{
+    background-color:#f5f5f5;
+    border-radius: 15px;
+    color: #000000;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+
+

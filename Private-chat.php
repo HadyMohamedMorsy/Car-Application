@@ -13,13 +13,10 @@
 <body>
     <?php
         session_start();
-
         if(!isset($_SESSION['user_name'])){
             header('location:index.php');
         }
-
     ?>
-
     <div class="chatPrivate">
         <div class="container-fluid">
             <div class="row">
@@ -28,11 +25,13 @@
                         <div class="content-user" style="text-align: center;">
                             <img src="./assists/images/IMG-Defult-Female.jpg" alt="car" class="img-radiues"/>
                             <h5> <?php echo $_SESSION['user_name']; ?> </h5>
+                            <a href="./CharRoom.php" class="private"> Group Chat  </a>
+                            <span class="car"> Car Number :  <?php echo $_SESSION['Number_car'] ?></span>
                             <div class="Buttons">
                                 <?php $user_Login_id = $_SESSION['user_id']; ?>
                                 <input type="hidden" value="<?php echo $user_Login_id; ?>" id="status" name="user_id"/>
                                 <input type="hidden" value="No" id="is_active_chat" name="is_active_chat"/>
-                                <button class="btn btn-primary">Edit</button>
+                                <a href="Application-content.php" class="btn btn-primary">Edit</a>
                                 <button class="btn btn-danger" id="LogOut">LogOut</button>
                             </div>
                         </div>
@@ -74,6 +73,20 @@
                                             <img src="./assists/images/IMG-Defult-Female.jpg" alt="car" class="img-radiues"/>
                                             <span class="user_name_<?php echo $user['user_id']; ?>"> <?php echo $user['user_name']; ?> </span>
                                         </div>
+                                        <div class="icones-phone">
+                                            <?php
+                                                if($user['enabled'] == "Enabled"){?>
+                                                        <div class="icon">
+                                                                <a href="tel:<?php echo $user['your_number_phone']; ?>"> <i class="fa fa-phone" aria-hidden="true"></i> </a>
+                
+                                                        </div>
+                                                    <?php
+                                                }
+                                                
+                                            ?>
+                                            <i class="fa fa-video" aria-hidden="true"></i>
+                                        </div>
+
                                         <div class="icon">
                                             <div class="circle red">
                                             <span id="userid-<?php echo $user['user_id'];?>">  
@@ -180,10 +193,9 @@
 
             function make_chat_area(user_name){
                 let html = `
-                <div class="details-user d-flex justify-content-between">
+                <div class="details-user d-flex justify-content-between align-items-center">
                     <h2>Chat Private With ${user_name}</h2>
                 </div> 
-            
                     <div class="message-box">
                     </div>
                     <form method="post" id="chat_form">

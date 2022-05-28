@@ -1,0 +1,33 @@
+body{
+    background-color: #658fff;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+.background{
+
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 20px;
+}
+
+.Frend{
+    background-color: #eee;
+    padding: 10px 10px;
+    border-radius: 10px;
+    color: #000;
+    font-weight: bold;
+}
+
+.private{
+    background-color: chartreuse;
+    color: #000 !important;
+    padding: 15px;
+    border-radius: 10px;
+    font-weight: bold;
+    margin: 25px 0px;
+    display: inline-block;
+    
+}

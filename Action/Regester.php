@@ -27,6 +27,8 @@
 
         $RgesterData->setUserStatus("Disabled");
 
+        $RgesterData->setenabled($_POST['call']);
+
         $RgesterData->setUserCreatedOn(date('Y-m-d H:i:s'));
 
         $RgesterData->setUserVerificationCode(md5(uniqid()));

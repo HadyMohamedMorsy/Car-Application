@@ -15,10 +15,16 @@
         private $Number_car;
         private $user_token;
         private $user_connection_id;
+        private $enabled;
 
         public function setUserId($user_id)
         {
             $this->user_id = $user_id;
+        }
+
+        public function setenabled($enabled){
+
+            $this->enabled = $enabled;
         }
 
         public function getUserId()
@@ -182,7 +188,8 @@
                 user_created_on = "'.$this->user_created_on.'",
                 user_verification_code = "'.$this->user_verification_code.'",
                 user_login_status = "'.$this->user_login_status.'",
-                Number_car = "'.$this->Number_car.'"
+                Number_car = "'.$this->Number_car.'",
+                enabled = "'.$this->enabled.'"
             ';
 
             $this->Connect()->query($insertdata);
@@ -262,7 +269,7 @@
 
         public function get_all_user_status() {
 
-            $query = "SELECT user_id , user_name , user_profile , user_login_status , (select COUNT(*) from chat_message WHERE to_user_id = $this->user_id AND from_user_id = chat_user_table.user_id AND status = 'no') AS count_status FROM chat_user_table";
+            $query = "SELECT user_id , user_name , user_profile , user_login_status , (select COUNT(*) from chat_message WHERE to_user_id = $this->user_id AND from_user_id = chat_user_table.user_id AND status = 'no') AS count_status , enabled , your_number_phone FROM chat_user_table";
 
             $result =  $this->Connect()->query($query);
 

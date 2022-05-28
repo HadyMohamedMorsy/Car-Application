@@ -41,7 +41,7 @@ class Chat implements MessageComponentInterface {
 
                 $data = json_decode($msg, true);
 
-                        if($data['command'] == 'private'){
+                    if($data['command'] == 'private'){
 
                         $privare = new \Privatechat;
 

@@ -2,68 +2,40 @@ html,
 body {
     width: 100%;
     height: 100%;
-    margin: 0;
-    padding: 0;
+    background: linear-gradient(90deg, rgba(64,142,130,1) 6%, rgba(140,36,138,1) 77%, rgba(205,0,255,1) 100%, rgba(9,83,121,0.9752275910364145) 100%);
 }
 
-canvas{
-    position: relative;
-}
+
+
 form{
     position: absolute;
-    left: 50%;
     top: 50%;
-    z-index: 1;
+    left: 50%;
     transform: translate(-50%, -50%);
     background-color: #fff;
-    padding: 20px;
+    padding: 20px 50px;
     border-radius: 10px;
-    
+    width: 60%;
 }
 
-form h1{
-    text-align: center;
-    font-size: 30px;
-    font-weight: bold;
+form .form-control{
+    border: none;
+    border-bottom: 2px solid #eee;
+    border-radius: 0px;
+    margin-bottom: 40px;
+    color: #979797;
 }
-.form-group label{
-    color: rgb(16 14 14);
-}
-
-
-form .form-row .form-group .content-input{
-    position: relative;
+form .forget-password{
+    margin-bottom: 30px;
 }
 
-form .form-row .form-group .content-input svg{
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    font-size: 12px;
-    left: 10px;
+form .forget-password a{
+    color: #979797;
+}
+form .forget-password a:hover{
+    text-decoration: none;
 }
 
-form .form-row .form-group .content-input input{
-    padding: 10px 25px;
-    font-size: 14px;
-    background-color: aliceblue;
-}
-
-.form-group{
-    margin-bottom: 25px;
-}
-
-form .form-row  a{
-    margin-left: 10px;
-    margin-bottom: 10px;
-    color: #000;
-}
-.form-group input[type = "submit"]{
-    background-color: #000;
-    color: #fff;
-    border-radius: 10px;
-    font-size: 20px;
-}
 .social-media{
     display: flex;
 }
@@ -79,20 +51,69 @@ form .form-row  a{
     margin-left: 10px;
 }
 
+form .submited{
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    border-radius: 15px;
+    padding: 10px;
+    font-weight: bold;
+    background-color: #af11c9;
+    border: 1px solid #af11c9;
+    transition: 0.5s;
+}
+form .submited:hover{
+    background-color: #408e82;
+    border: 1px solid #408e82;
+}
+
+form .sign-up a{
+    color: #979797;
+}
+
 .social-media span a{
     color: #fff;
 }
 
+.right-side{
+    background-color: #eee;
+}
+
+.social-media {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 100%;
+}
 .social-media .fac{
-    background-color: blue;
+    background-color: #3a589b;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50px;
+    height: 50px;
+    padding: 20px;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.social-media .fac svg , .social-media .google svg{
+    font-size: 20px;
+    color: #fff;
 }
 
 .social-media .google{
-    background-color: red;
-}
-.sign-up{
-    padding-top: 20px;
-}
-.sign-up a{
-    color: #000;
+    background-color: rgb(0, 0, 0);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50px;
+    height: 50px;
+    padding: 20px;
+    border-radius: 50%;
+    cursor: pointer;
+
 }

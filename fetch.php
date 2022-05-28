@@ -19,6 +19,8 @@ if(isset($_POST["query"])){
               <tr>
                <th>Image</th>
                <th>Name</th>
+               <th>imageCar</th>
+               <th>Relation</th>
               </tr>
            ';
 
@@ -26,6 +28,9 @@ if(isset($_POST["query"])){
            <tr>
             <td> <img src="./assists/images/'.$row['user_profile'].'" style="width : 60px"></td>
             <td>'.$row['user_name'].'</td>
+            <td> <img src="./assists/images/'.$row['imag_car'].'" style="width : 60px"></td>
+            <td> <a href="#" class="Frend"> Add Frend </a> </td>
+            <td> <a href="add-rating.php" class="Frend"> Add Rating </a> </td>
            </tr>
           ';
 

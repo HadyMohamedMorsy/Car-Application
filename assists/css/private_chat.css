@@ -79,10 +79,17 @@
     align-items: center;
 }
 .message-box .Another-user span{
-
     background-color: #3e4042;
     color: #fff;
     display: block;
     padding: 10px;
     border-radius: 10px;
+}
+
+.icones-phone{
+    display: flex;
+}
+
+.icones-phone svg{
+    margin-left: 10px;
 }
